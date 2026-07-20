@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Nilai & IP Semester</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--ts:.35s}
+        [data-theme="dark"]{
+            --bg:#060818;
+            --glass:rgba(255,255,255,0.04);--glass-2:rgba(255,255,255,0.07);
+            --glass-bd:rgba(255,255,255,0.09);--glass-bd-f:rgba(255,255,255,0.18);
+            --inp:rgba(255,255,255,0.06);--inp-f:rgba(255,255,255,0.11);--hov:rgba(255,255,255,0.07);
+            --t1:#f1f5f9;--t2:#94a3b8;--t3:#475569;
+            --ac:#818cf8;--ac2:#a78bfa;--ac-bg:rgba(99,102,241,0.13);--ac-bd:rgba(99,102,241,0.28);
+            --shc:0 8px 32px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.06);
+            --shc-sm:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.05);
+            --ga:#34d399;--ga-b:rgba(52,211,153,0.12);--gab:#6ee7b7;--gab-b:rgba(110,231,183,0.1);
+            --gb:#60a5fa;--gb-b:rgba(96,165,250,0.12);--gbc:#93c5fd;--gbc-b:rgba(147,197,253,0.1);
+            --gc:#fbbf24;--gc-b:rgba(251,191,36,0.12);--gcd:#f59e0b;--gcd-b:rgba(245,158,11,0.1);
+            --gd:#fb923c;--gd-b:rgba(251,146,60,0.12);--ge:#f87171;--ge-b:rgba(248,113,113,0.12);
+            --del:#f87171;--del-b:rgba(248,113,113,0.12);
+            --ok-b:rgba(52,211,153,0.08);--ok-d:rgba(52,211,153,0.25);
+            --no-b:rgba(248,113,113,0.08);--no-d:rgba(248,113,113,0.25);
+            --sf-b:rgba(96,165,250,0.08);--sf-d:rgba(96,165,250,0.25);
+            --sem-bd:rgba(99,102,241,0.14);
+        }
+        [data-theme="light"]{
+            --bg:#dde3f5;
+            --glass:rgba(255,255,255,0.55);--glass-2:rgba(255,255,255,0.72);
+            --glass-bd:rgba(255,255,255,0.65);--glass-bd-f:rgba(99,102,241,0.35);
+            --inp:rgba(255,255,255,0.58);--inp-f:rgba(255,255,255,0.92);--hov:rgba(255,255,255,0.68);
+            --t1:#1e293b;--t2:#475569;--t3:#94a3b8;
+            --ac:#6366f1;--ac2:#8b5cf6;--ac-bg:rgba(99,102,241,0.09);--ac-bd:rgba(99,102,241,0.22);
+            --shc:0 8px 32px rgba(99,102,241,0.1),inset 0 1px 0 rgba(255,255,255,0.8);
+            --shc-sm:0 4px 16px rgba(99,102,241,0.08),inset 0 1px 0 rgba(255,255,255,0.7);
+            --ga:#059669;--ga-b:rgba(5,150,105,0.1);--gab:#10b981;--gab-b:rgba(16,185,129,0.1);
+            --gb:#3b82f6;--gb-b:rgba(59,130,246,0.1);--gbc:#60a5fa;--gbc-b:rgba(96,165,250,0.1);
+            --gc:#d97706;--gc-b:rgba(217,119,6,0.1);--gcd:#b45309;--gcd-b:rgba(180,83,9,0.1);
+            --gd:#ea580c;--gd-b:rgba(234,88,12,0.1);--ge:#dc2626;--ge-b:rgba(220,38,38,0.1);
+            --del:#dc2626;--del-b:rgba(220,38,38,0.1);
+            --ok-b:rgba(5,150,105,0.07);--ok-d:rgba(5,150,105,0.2);
+            --no-b:rgba(220,38,38,0.07);--no-d:rgba(220,38,38,0.2);
+            --sf-b:rgba(59,130,246,0.07);--sf-d:rgba(59,130,246,0.2);
+            --sem-bd:rgba(99,102,241,0.12);
+        }
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;transition:background var(--ts),color var(--ts)}
+        .bg-a{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+        [data-theme="dark"] .bg-a::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 15%,rgba(99,102,241,0.22) 0%,transparent 55%),radial-gradient(ellipse at 85% 85%,rgba(167,139,250,0.18) 0%,transparent 50%),radial-gradient(ellipse at 65% 5%,rgba(96,165,250,0.1) 0%,transparent 45%),radial-gradient(ellipse at 5% 90%,rgba(52,211,153,0.07) 0%,transparent 40%)}
+        [data-theme="light"] .bg-a::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 15%,rgba(99,102,241,0.14) 0%,transparent 55%),radial-gradient(ellipse at 85% 85%,rgba(167,139,250,0.11) 0%,transparent 50%),radial-gradient(ellipse at 65% 5%,rgba(96,165,250,0.09) 0%,transparent 45%)}
+        .bg-a .o{position:absolute;border-radius:50%;filter:blur(100px);animation:fl 28s ease-in-out infinite}
+        [data-theme="dark"] .bg-a .o{opacity:0.18}[data-theme="light"] .bg-a .o{opacity:0.1}
+        .bg-a .o:nth-child(1){width:750px;height:750px;background:#6366f1;top:-280px;left:-180px}
+        .bg-a .o:nth-child(2){width:650px;height:650px;background:#a78bfa;bottom:-220px;right:-180px;animation-delay:-9s}
+        .bg-a .o:nth-child(3){width:550px;height:550px;background:#60a5fa;top:45%;left:50%;transform:translate(-50%,-50%);animation-delay:-18s}
+        @keyframes fl{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(45px,-55px) scale(1.07)}50%{transform:translate(-35px,35px) scale(0.93)}75%{transform:translate(55px,45px) scale(1.04)}}
+        .ctn{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:40px 20px 140px}
+        .ttgl{position:fixed;top:20px;right:20px;z-index:100;width:48px;height:48px;border-radius:14px;border:1px solid var(--glass-bd);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.25rem;transition:all .3s;box-shadow:var(--shc-sm)}
+        .ttgl:hover{border-color:var(--ac);transform:scale(1.08)}
+        .hdr{text-align:center;margin-bottom:40px}
+        .hdr-b{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-bd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:.8rem;font-weight:500;color:var(--ac);margin-bottom:20px;letter-spacing:.5px;text-transform:uppercase}
+        .hdr-b .dot{width:6px;height:6px;border-radius:50%;background:var(--ga);animation:pd 2s ease-in-out infinite}
+        @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+        .hdr h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;background:linear-gradient(135deg,var(--ac),var(--ac2),#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:12px}
+        .hdr p{color:var(--t2);font-size:1rem;max-width:560px;margin:0 auto;line-height:1.6}
+
+        .crd{background:var(--glass);border:1px solid var(--glass-bd);border-radius:24px;padding:28px;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:var(--shc);margin-bottom:20px;transition:all var(--ts)}
+        .crd:hover{border-color:var(--glass-bd-f)}
+        .ct{display:flex;align-items:center;gap:12px;font-size:1.05rem;font-weight:700;margin-bottom:20px;color:var(--t1)}
+        .ct .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+        .ic.ind{background:var(--ac-bg)}.ic.em{background:var(--ga-b)}.ic.am{background:var(--gc-b)}.ic.vi{background:rgba(167,139,250,.12)}
+
+        .gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+        .gi{padding:12px 8px;border-radius:14px;text-align:center;border:1px solid var(--glass-bd);backdrop-filter:blur(8px);transition:all .3s;position:relative;overflow:hidden}
+        .gi::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;border-radius:3px 3px 0 0}
+        .gi.a{background:var(--ga-b)}.gi.a::before{background:var(--ga)}.gi.a .gl{color:var(--ga)}
+        .gi.ab{background:var(--gab-b)}.gi.ab::before{background:var(--gab)}.gi.ab .gl{color:var(--gab)}
+        .gi.b{background:var(--gb-b)}.gi.b::before{background:var(--gb)}.gi.b .gl{color:var(--gb)}
+        .gi.bc{background:var(--gbc-b)}.gi.bc::before{background:var(--gbc)}.gi.bc .gl{color:var(--gbc)}
+        .gi.c{background:var(--gc-b)}.gi.c::before{background:var(--gc)}.gi.c .gl{color:var(--gc)}
+        .gi.cd{background:var(--gcd-b)}.gi.cd::before{background:var(--gcd)}.gi.cd .gl{color:var(--gcd)}
+        .gi.d{background:var(--gd-b)}.gi.d::before{background:var(--gd)}.gi.d .gl{color:var(--gd)}
+        .gi.e{background:var(--ge-b)}.gi.e::before{background:var(--ge)}.gi.e .gl{color:var(--ge)}
+        .gl{font-size:1.2rem;font-weight:800;margin-bottom:2px}.gr{font-size:.7rem;color:var(--t3);font-weight:500}
+
+        /* SEMESTER */
+        .sem{background:var(--glass);border:1px solid var(--sem-bd);border-radius:24px;margin-bottom:20px;overflow:hidden;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:var(--shc);transition:all var(--ts)}
+        .sem:hover{border-color:var(--glass-bd-f)}
+        .sem-h{display:flex;align-items:center;gap:14px;padding:18px 24px;cursor:pointer;user-select:none;transition:background .2s;background:rgba(99,102,241,0.05)}
+        .sem-h:hover{background:rgba(99,102,241,0.09)}
+        .sem-num{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0;box-shadow:0 4px 16px rgba(99,102,241,0.4)}
+        .sem-info{flex:1}
+        .sem-title{font-weight:800;font-size:1.1rem;color:var(--t1);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .sem-stats{font-size:.78rem;color:var(--t3);font-weight:500;margin-top:2px}
+        .sem-ips{padding:3px 12px;border-radius:8px;font-size:.78rem;font-weight:700;display:none}
+        .sem-ips.show{display:inline-flex}
+        .sem-del{width:34px;height:34px;border-radius:10px;border:none;background:var(--del-b);color:var(--del);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;flex-shrink:0}
+        .sem-del:hover{transform:scale(1.1)}
+        .sem-cv{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--t3);transition:transform .3s;font-size:.8rem}
+        .sem.open .sem-cv{transform:rotate(180deg)}
+        .sem-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1),padding .3s;padding:0 20px}
+        .sem.open .sem-body{max-height:99999px;padding:16px 20px 24px}
+
+        /* COURSE */
+        .cc{background:var(--glass-2);border:1px solid var(--glass-bd);border-radius:18px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shc-sm);margin-bottom:12px;overflow:hidden;transition:all var(--ts)}
+        .cc:hover{border-color:var(--glass-bd-f)}
+        .cc.drag-over{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac-bd),var(--shc-sm);transform:scale(1.01)}
+        .cc.dragging{opacity:0.35;transform:scale(0.97)}
+        .ch{display:flex;align-items:center;gap:10px;padding:14px 20px;cursor:pointer;user-select:none;transition:background .2s}
+        .ch:hover{background:var(--hov)}
+        .drag-handle{width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--t3);cursor:grab;font-size:1.1rem;flex-shrink:0;transition:color .2s,background .2s;border-radius:6px}
+        .drag-handle:hover{color:var(--ac);background:var(--ac-bg)}.drag-handle:active{cursor:grabbing}
+        .cn{width:30px;height:30px;border-radius:8px;background:var(--ac-bg);border:1px solid var(--ac-bd);color:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0}
+        .cnd{flex:1;font-weight:700;font-size:.95rem;color:var(--t1);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .cgb{padding:2px 10px;border-radius:7px;font-size:.72rem;font-weight:700;display:none}
+        .cgb.show{display:inline-flex}
+        .sks-b{padding:2px 8px;border-radius:7px;font-size:.68rem;font-weight:600;background:rgba(167,139,250,0.15);color:var(--ac2)}
+        .c-del{width:28px;height:28px;border-radius:8px;border:none;background:var(--del-b);color:var(--del);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s;flex-shrink:0}
+        .c-del:hover{transform:scale(1.1)}
+        .c-cv{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--t3);transition:transform .3s;font-size:.7rem}
+        .cc.open .c-cv{transform:rotate(180deg)}
+        .c-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1),padding .3s;padding:0 20px}
+        .cc.open .c-body{max-height:4000px;padding:0 20px 20px}
+
+        .ni{width:100%;padding:9px 12px;border:1px solid var(--glass-bd);border-radius:10px;background:var(--inp);color:var(--t1);font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;outline:none;transition:all .3s;margin-bottom:10px}
+        .ni:focus{border-color:var(--ac);background:var(--inp-f);box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+        .ni::placeholder{color:var(--t3);font-weight:400}
+        .sks-r{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+        .sks-r label{font-weight:600;font-size:.85rem;color:var(--t2)}
+        .sks-i{width:70px;padding:7px 10px;border:1px solid var(--glass-bd);border-radius:10px;background:var(--inp);color:var(--t1);font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;text-align:center;outline:none;transition:all .3s}
+        .sks-i:focus{border-color:var(--ac);background:var(--inp-f);box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
+
+        .cs-t{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+        .cs-t span{font-weight:700;font-size:.82rem;color:var(--t2)}
+        .ww{font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:7px}
+        .ww.ok{background:var(--ok-b);color:var(--ga)}.ww.bad{background:var(--no-b);color:var(--ge)}
+
+        .ig{display:grid;gap:8px}
+        .ir{display:grid;grid-template-columns:1fr 70px 100px auto;align-items:center;gap:8px;padding:10px 12px;background:var(--inp);border:1px solid var(--glass-bd);border-radius:10px;transition:all .3s}
+        .ir:hover{border-color:var(--glass-bd-f);background:var(--inp-f)}
+        .ir:focus-within{border-color:var(--ac);box-shadow:0 0 0 3px rgba(99,102,241,0.08)}
+        .cne{background:transparent;border:none;color:var(--t1);font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;outline:none;width:100%;padding:2px 0;border-bottom:1px dashed transparent;transition:border-color .2s}
+        .cne:focus{border-bottom-color:var(--ac)}.cne::placeholder{color:var(--t3);font-weight:400}
+        .wiw{display:flex;align-items:center;gap:3px}
+        .we{width:44px;padding:4px 5px;border:1px solid rgba(99,102,241,0.2);border-radius:7px;background:var(--ac-bg);color:var(--ac);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;text-align:center;outline:none;transition:all .3s}
+        .we:focus{border-color:var(--ac);box-shadow:0 0 0 2px rgba(99,102,241,0.1)}
+        .wp{font-size:.75rem;font-weight:700;color:var(--ac)}
+        .vi{width:100%;padding:8px 8px;border:1px solid var(--glass-bd);border-radius:9px;background:var(--inp);color:var(--t1);font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;text-align:center;outline:none;transition:all .3s}
+        .vi::placeholder{color:var(--t3);font-weight:400}
+        .vi:focus{border-color:var(--ac);background:var(--inp-f);box-shadow:0 0 0 3px rgba(99,102,241,0.08)}
+        .cd2{width:24px;height:24px;border-radius:6px;border:none;background:transparent;color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;transition:all .2s;flex-shrink:0}
+        .cd2:hover{background:var(--del-b);color:var(--del)}
+
+        .acb{width:100%;padding:8px;border-radius:9px;border:1.5px dashed var(--glass-bd);background:transparent;color:var(--ac);font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .3s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:5px}
+        .acb:hover{border-color:var(--ac);background:var(--ac-bg)}
+
+        .ts{display:flex;align-items:center;gap:10px;margin-top:14px;overflow:hidden}
+        .tl{font-weight:600;font-size:.82rem;color:var(--t2);flex-shrink:0}
+        .gbs{display:flex;gap:5px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none}
+        .gbs::-webkit-scrollbar{display:none}
+        .gb{padding:6px 12px;border-radius:8px;border:1px solid var(--glass-bd);background:var(--inp);color:var(--t2);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0}
+        .gb:hover{border-color:var(--ac);color:var(--t1);transform:translateY(-1px)}
+        .gb.act{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(167,139,250,0.12));border-color:var(--ac);color:var(--t1);box-shadow:0 0 12px rgba(99,102,241,0.12)}
+
+        .cbtn{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6,#6366f1);background-size:200% 200%;color:#fff;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .4s;margin-top:14px;position:relative;overflow:hidden}
+        .cbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .6s}
+        .cbtn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,0.4);background-position:100% 0}
+        .cbtn:hover::before{transform:translateX(100%)}.cbtn:active{transform:translateY(0)}
+
+        .add-c-btn{width:100%;padding:12px;border-radius:14px;border:1.5px dashed var(--glass-bd);background:transparent;color:var(--ac);font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;margin-bottom:8px}
+        .add-c-btn:hover{border-color:var(--ac);background:var(--ac-bg);transform:translateY(-1px)}
+
+        .add-s-btn{width:100%;padding:16px;border-radius:20px;border:2px dashed var(--glass-bd);background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ac);font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px}
+        .add-s-btn:hover{border-color:var(--ac);background:var(--ac-bg);transform:translateY(-2px)}
+
+        /* RESULTS */
+        .ra{display:none;animation:su .5s cubic-bezier(.16,1,.3,1)}.ra.show{display:block}
+        @keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+        .mnb{text-align:center;padding:20px;border-radius:12px;margin:14px 0}
+        .mnb.ok{background:var(--ok-b);border:1px solid var(--ok-d)}
+        .mnb.no{background:var(--no-b);border:1px solid var(--no-d)}
+        .mnb.sf{background:var(--sf-b);border:1px solid var(--sf-d)}
+        .mnl{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .mnv{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;line-height:1}
+        .mnd{font-size:.82rem;margin-top:8px;line-height:1.5;color:var(--t2)}
+
+        .bdg{display:grid;gap:6px}
+        .bdi{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:9px 12px;background:var(--inp);border-radius:9px;border:1px solid var(--glass-bd)}
+        .bdi .bn{font-weight:600;font-size:.82rem}.bdi .bc{font-size:.75rem;color:var(--t3);font-weight:500;text-align:right}
+        .bdi .br{font-weight:700;font-size:.85rem;color:var(--ac);text-align:right;min-width:40px}
+
+        .sd{text-align:center;padding:20px 12px}
+        .csl{font-size:.78rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+        .csv{font-size:clamp(2rem,6vw,3.5rem);font-weight:900;line-height:1;margin-bottom:4px}
+        .csg{display:inline-flex;padding:4px 14px;border-radius:999px;font-size:.88rem;font-weight:700;margin-top:4px}
+
+        .ps{margin:12px 0}.ph{display:flex;justify-content:space-between;margin-bottom:6px}
+        .ph span{font-size:.75rem;font-weight:600;color:var(--t2)}
+        .pt{width:100%;height:8px;background:var(--inp);border-radius:999px;overflow:hidden}
+        .pf{height:100%;border-radius:999px;transition:width .8s cubic-bezier(.16,1,.3,1);position:relative}
+        .pf::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:sh 2s infinite}
+        @keyframes sh{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+        /* IP */
+        .ip-box{text-align:center;padding:32px 20px}
+        .ip-lb{font-size:.88rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+        .ip-vl{font-size:clamp(3rem,8vw,5rem);font-weight:900;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+        .ip-dt{font-size:.88rem;color:var(--t2);margin-top:10px;line-height:1.6}
+        .ip-fm{font-size:.78rem;color:var(--t3);margin-top:4px;font-style:italic}
+
+        .ip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:20px}
+        .ip-card{padding:20px;border-radius:16px;background:var(--inp);text-align:center;border:1px solid var(--glass-bd);backdrop-filter:blur(8px)}
+        .ip-card .ip-c-lb{font-size:.72rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .ip-card .ip-c-vl{font-size:1.8rem;font-weight:900;color:var(--ac)}
+
+        .stb{width:100%;border-collapse:separate;border-spacing:0 5px}
+        .stb th{text-align:left;padding:6px 10px;font-size:.72rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+        .stb td{padding:10px;background:var(--inp);font-size:.82rem;font-weight:500;color:var(--t1)}
+        .stb tr td:first-child{border-radius:8px 0 0 8px;font-weight:700}
+        .stb tr td:last-child{border-radius:0 8px 8px 0}
+        .stb .gc{font-weight:800;text-align:center}
+
+        .sem-sum{padding:16px;border-radius:14px;background:var(--ac-bg);border:1px solid var(--ac-bd);margin-bottom:12px}
+        .sem-sum-t{font-weight:700;font-size:.88rem;color:var(--ac);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+        .sem-sum-row{display:flex;gap:16px;flex-wrap:wrap}
+        .sem-sum-item{display:flex;flex-direction:column;gap:2px}
+        .sem-sum-item .ssl{font-size:.68rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+        .sem-sum-item .ssv{font-size:1.1rem;font-weight:800;color:var(--t1)}
+
+        .footer{text-align:center;margin-top:36px;padding-top:20px;border-top:1px solid var(--glass-bd);color:var(--t3);font-size:.78rem}
+
+        /* TOTAL BAR - Floating Rounded Rectangle */
+        .total-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s;opacity:0;z-index:150;pointer-events:none;width:calc(100% - 48px);max-width:680px}
+        .total-bar.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+        .total-bar-card{background:rgba(8,10,22,0.72);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,0.11);border-radius:20px;padding:14px 20px;display:flex;align-items:center;gap:0;box-shadow:0 24px 64px rgba(0,0,0,0.55),0 0 0 1px rgba(99,102,241,0.12),inset 0 1px 0 rgba(255,255,255,0.07)}
+        [data-theme="light"] .total-bar-card{background:rgba(255,255,255,0.82);border:1px solid rgba(255,255,255,0.7);box-shadow:0 24px 64px rgba(99,102,241,0.18),0 0 0 1px rgba(99,102,241,0.1),inset 0 1px 0 rgba(255,255,255,0.95)}
+        .total-bar-item{display:flex;flex-direction:column;align-items:center;gap:1px;flex:1;padding:0 8px}
+        .tb-label{font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
+        .tb-value{font-size:1.2rem;font-weight:900;color:var(--t1)}
+        .tb-value.accent{color:var(--ac)}.tb-value.green{color:var(--ga)}
+        .total-bar-divider{width:1px;height:30px;background:var(--glass-bd);flex-shrink:0}
+        .total-bar-grade{padding:8px 16px;border-radius:12px;font-size:.8rem;font-weight:800;letter-spacing:.4px;flex-shrink:0;margin-left:12px}
+
+        /* DATA TOOLBAR */
+        .data-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+        .dt-btn{padding:10px 18px;border-radius:12px;border:1px solid var(--glass-bd);background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--t2);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:7px;box-shadow:var(--shc-sm)}
+        .dt-btn:hover{border-color:var(--ac);color:var(--t1);transform:translateY(-1px)}
+        .dt-btn.save{border-color:rgba(52,211,153,0.2)}.dt-btn.save:hover{border-color:var(--ga);color:var(--ga)}
+        .dt-btn.export{border-color:rgba(96,165,250,0.2)}.dt-btn.export:hover{border-color:var(--gb);color:var(--gb)}
+        .dt-btn.import{border-color:rgba(167,139,250,0.2)}.dt-btn.import:hover{border-color:var(--ac2);color:var(--ac2)}
+        .dt-btn.reset{border-color:rgba(248,113,113,0.15)}.dt-btn.reset:hover{border-color:var(--ge);color:var(--ge)}
+        .dt-spacer{flex:1}
+        .save-status{font-size:.75rem;color:var(--t3);font-weight:500;display:flex;align-items:center;gap:5px}
+        .save-status .dot-ok{width:6px;height:6px;border-radius:50%;background:var(--ga)}
+        /* Toast */
+        .toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(30px);padding:12px 24px;border-radius:14px;background:var(--glass-2);border:1px solid var(--glass-bd);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 8px 32px rgba(0,0,0,0.3);font-size:.88rem;font-weight:600;color:var(--t1);z-index:300;opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1);pointer-events:none;display:flex;align-items:center;gap:8px}
+        .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+        #fileInput{display:none}
+
+        @media(max-width:640px){
+            .ctn{padding:24px 12px 130px}
+            .crd{padding:20px 16px;border-radius:18px}
+            .sem-h{padding:14px 16px}.sem-body{padding:0 12px}.sem.open .sem-body{padding:12px 12px 20px}
+            .ch{padding:12px 14px}.c-body{padding:0 14px}.cc.open .c-body{padding:0 14px 16px}
+            .ir{grid-template-columns:1fr;gap:6px;padding:10px 12px}
+            .wiw{justify-self:start}.vi{text-align:left}
+            .gs{grid-template-columns:repeat(4,1fr)}
+            .ts{flex-direction:row;align-items:center}
+            .bdi{grid-template-columns:1fr;gap:3px}.bdi .bc,.bdi .br{text-align:left}
+            .stb{font-size:.75rem}.stb th,.stb td{padding:7px 6px}
+            .ip-grid{grid-template-columns:repeat(2,1fr)}
+            .total-bar{width:calc(100% - 24px);bottom:16px}.total-bar-card{padding:10px 14px;border-radius:16px}
+            .tb-value{font-size:.95rem}.total-bar-grade{padding:6px 10px;font-size:.72rem;margin-left:6px}
+        }
+    </style>
+</head>
+<body>
+<div class="bg-a"><div class="o"></div><div class="o"></div><div class="o"></div></div>
+<button class="ttgl" id="ttgl" onclick="TT()" title="Light/Dark Mode">🌙</button>
+<div class="ctn">
+    <div class="hdr">
+        <div class="hdr-b"><span class="dot"></span>Kalkulator Nilai & IP</div>
+        <h1>Kalkulator Nilai Minimum<br>& Indeks Prestasi</h1>
+        <p>Kelola semester, tambahkan mata kuliah, atur bobot penilaian, dan hitung IPS & IPK Anda secara otomatis.</p>
+    </div>
+
+    <div class="crd">
+        <div class="ct"><div class="ic am">📊</div>Skala Penilaian</div>
+        <div class="gs">
+            <div class="gi a"><div class="gl">A</div><div class="gr">80 – 100</div></div>
+            <div class="gi ab"><div class="gl">AB</div><div class="gr">75 – 79.99</div></div>
+            <div class="gi b"><div class="gl">B</div><div class="gr">70 – 74.99</div></div>
+            <div class="gi bc"><div class="gl">BC</div><div class="gr">65 – 69.99</div></div>
+            <div class="gi c"><div class="gl">C</div><div class="gr">60 – 64.99</div></div>
+            <div class="gi cd"><div class="gl">CD</div><div class="gr">56 – 59.99</div></div>
+            <div class="gi d"><div class="gl">D</div><div class="gr">46 – 55.99</div></div>
+            <div class="gi e"><div class="gl">E</div><div class="gr">0 – 45.99</div></div>
+        </div>
+    </div>
+
+    <!-- Data Toolbar -->
+    <div class="data-toolbar">
+        <button class="dt-btn save" onclick="saveData()" title="Simpan ke browser">💾 Simpan</button>
+        <button class="dt-btn export" onclick="exportData()" title="Download file JSON">📥 Export JSON</button>
+        <button class="dt-btn import" onclick="document.getElementById('fileInput').click()" title="Upload file JSON">📤 Import JSON</button>
+        <input type="file" id="fileInput" accept=".json" onchange="importData(event)">
+        <div class="dt-spacer"></div>
+        <span class="save-status" id="saveStatus"></span>
+        <button class="dt-btn reset" onclick="resetData()" title="Hapus semua data">🗑️ Reset</button>
+    </div>
+
+    <div id="semList"></div>
+    <button class="add-s-btn" onclick="addSem()"><span style="font-size:1.3rem">＋</span> Tambah Semester</button>
+
+    <!-- Global Summary -->
+    <div class="ra" id="globalSum">
+        <div class="crd">
+            <div class="ct"><div class="ic vi">🎓</div>Indeks Prestasi</div>
+            <div class="ip-box">
+                <div class="ip-lb">IPK (Kumulatif)</div>
+                <div class="ip-vl" id="ipkVal">0.00</div>
+                <div class="ip-dt" id="ipkDt"></div>
+                <div class="ip-fm" id="ipkFm"></div>
+            </div>
+            <div class="ip-grid" id="ipsGrid"></div>
+        </div>
+        <div class="crd">
+            <div class="ct"><div class="ic em">📈</div>Ringkasan Seluruh Semester</div>
+            <div id="semSumList"></div>
+            <table class="stb" style="margin-top:12px">
+                <thead><tr><th>Semester</th><th>Mata Kuliah</th><th>SKS</th><th>Nilai</th><th>Grade</th><th>Bobot</th></tr></thead>
+                <tbody id="allBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">Kalkulator Nilai & IP Semester &middot; Data tersimpan otomatis di browser</div>
+</div>
+
+<!-- Total Bar -->
+<div class="total-bar" id="totalBar">
+    <div class="total-bar-card">
+        <div class="total-bar-item">
+            <span class="tb-label">Total SKS</span>
+            <span class="tb-value accent" id="tb-sks">0</span>
+        </div>
+        <div class="total-bar-divider"></div>
+        <div class="total-bar-item">
+            <span class="tb-label">Mata Kuliah</span>
+            <span class="tb-value" id="tb-mk">0</span>
+        </div>
+        <div class="total-bar-divider"></div>
+        <div class="total-bar-item">
+            <span class="tb-label">Semester</span>
+            <span class="tb-value" id="tb-sem">0</span>
+        </div>
+        <div class="total-bar-divider"></div>
+        <div class="total-bar-item" style="flex:1.5">
+            <span class="tb-label">IPK</span>
+            <span class="tb-value green" id="tb-ipk">&mdash;</span>
+        </div>
+        <div class="total-bar-grade" id="tb-grade" style="display:none"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function TT(){const h=document.documentElement,b=document.getElementById('ttgl');if(h.dataset.theme==='dark'){h.dataset.theme='light';b.textContent='☀️';localStorage.setItem('t','l')}else{h.dataset.theme='dark';b.textContent='🌙';localStorage.setItem('t','d')}}
+(function(){if(localStorage.getItem('t')==='l'){document.documentElement.dataset.theme='light';document.getElementById('ttgl').textContent='☀️'}})();
+
+function G(s){
+    if(s>=80)return{l:'A',c:'var(--ga)',bg:'var(--ga-b)',p:4};
+    if(s>=75)return{l:'AB',c:'var(--gab)',bg:'var(--gab-b)',p:3.5};
+    if(s>=70)return{l:'B',c:'var(--gb)',bg:'var(--gb-b)',p:3};
+    if(s>=65)return{l:'BC',c:'var(--gbc)',bg:'var(--gbc-b)',p:2.5};
+    if(s>=60)return{l:'C',c:'var(--gc)',bg:'var(--gc-b)',p:2};
+    if(s>=56)return{l:'CD',c:'var(--gcd)',bg:'var(--gcd-b)',p:1.5};
+    if(s>=46)return{l:'D',c:'var(--gd)',bg:'var(--gd-b)',p:1};
+    return{l:'E',c:'var(--ge)',bg:'var(--ge-b)',p:0};
+}
+function PG(s){if(s>=80)return'linear-gradient(90deg,#34d399,#6ee7b7)';if(s>=70)return'linear-gradient(90deg,#60a5fa,#93c5fd)';if(s>=60)return'linear-gradient(90deg,#fbbf24,#fcd34d)';if(s>=46)return'linear-gradient(90deg,#fb923c,#fdba74)';return'linear-gradient(90deg,#f87171,#fca5a5)'}
+
+const defComps=[{name:'UTS',w:20},{name:'Presensi',w:10},{name:'Quiz / Tugas',w:20},{name:'Hasil Proyek (Video)',w:50}];
+let SC=0;const sems={};
+let dragSrc=null,dragSid=null;
+
+function makeDraggable(card,sid){
+    card.setAttribute('draggable','true');
+    card.addEventListener('dragstart',function(e){dragSrc=card;dragSid=sid;setTimeout(function(){card.classList.add('dragging')},0);e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','')});
+    card.addEventListener('dragend',function(){card.classList.remove('dragging');document.querySelectorAll('.cc').forEach(function(c){c.classList.remove('drag-over')});renumberCourses(sid);updGlobal()});
+    card.addEventListener('dragover',function(e){e.preventDefault();if(dragSrc&&card!==dragSrc&&dragSid===sid){document.getElementById(sid+'_cl').querySelectorAll('.cc').forEach(function(c){c.classList.remove('drag-over')});card.classList.add('drag-over')}});
+    card.addEventListener('dragleave',function(){card.classList.remove('drag-over')});
+    card.addEventListener('drop',function(e){e.stopPropagation();card.classList.remove('drag-over');if(dragSrc&&card!==dragSrc&&dragSid===sid){var cl=document.getElementById(sid+'_cl');var cards=Array.from(cl.querySelectorAll(':scope > .cc'));var si=cards.indexOf(dragSrc),di=cards.indexOf(card);if(si<di)cl.insertBefore(dragSrc,card.nextSibling);else cl.insertBefore(dragSrc,card)}});
+}
+function renumberCourses(sid){var cl=document.getElementById(sid+'_cl');if(!cl)return;Array.from(cl.querySelectorAll(':scope > .cc')).forEach(function(card,i){var cn=card.querySelector('.cn');if(cn)cn.textContent=i+1})}
+
+function addSem(){
+    SC++;const sid='s'+SC;
+    sems[sid]={num:SC,courses:{},cc:0};
+    const d=document.createElement('div');d.className='sem open';d.id=sid;
+    d.innerHTML=`
+        <div class="sem-h" onclick="document.getElementById('${sid}').classList.toggle('open')">
+            <div class="sem-num">${SC}</div>
+            <div class="sem-info">
+                <div class="sem-title">Semester ${SC} <span class="sem-ips" id="${sid}_ips"></span></div>
+                <div class="sem-stats" id="${sid}_stats">0 Mata Kuliah · 0 SKS</div>
+            </div>
+            <button class="sem-del" onclick="event.stopPropagation();delSem('${sid}')" title="Hapus Semester">✕</button>
+            <div class="sem-cv">▼</div>
+        </div>
+        <div class="sem-body">
+            <div id="${sid}_cl"></div>
+            <button class="add-c-btn" onclick="addCourse('${sid}')">＋ Tambah Mata Kuliah</button>
+        </div>`;
+    document.getElementById('semList').appendChild(d);
+    addCourse(sid);
+    d.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function delSem(sid){
+    const el=document.getElementById(sid);
+    if(el){el.style.transition='all .3s';el.style.opacity='0';el.style.transform='translateX(-30px)';
+    setTimeout(()=>{el.remove();delete sems[sid];updGlobal()},300)}
+}
+
+function addCourse(sid){
+    const s=sems[sid];s.cc++;
+    const cid=sid+'c'+s.cc;
+    s.courses[cid]={target:80,tg:'A',comps:JSON.parse(JSON.stringify(defComps)),num:s.cc};
+    const d=document.createElement('div');d.className='cc open';d.id=cid;
+    d.innerHTML=`
+        <div class="ch" onclick="document.getElementById('${cid}').classList.toggle('open')">
+            <div class="drag-handle" onclick="event.stopPropagation()" title="Seret untuk memindahkan">&#10495;</div>
+            <div class="cn">${s.cc}</div>
+            <div class="cnd"><span id="${cid}_dn">Mata Kuliah ${s.cc}</span><span class="cgb" id="${cid}_bg"></span><span class="sks-b" id="${cid}_sb"></span></div>
+            <button class="c-del" onclick="event.stopPropagation();delCourse('${sid}','${cid}')" title="Hapus">&#x2715;</button>
+            <div class="c-cv">&#x25BC;</div>
+        </div>
+        <div class="c-body">
+            <input type="text" class="ni" id="${cid}_nm" placeholder="Nama Mata Kuliah" oninput="document.getElementById('${cid}_dn').textContent=this.value.trim()||'Mata Kuliah'">
+            <div class="sks-r"><label>SKS:</label><input type="number" class="sks-i" id="${cid}_sk" min="1" max="12" value="3"></div>
+            <div class="cs-t"><span>&#9881;&#65039; Komponen Penilaian</span><span class="ww ok" id="${cid}_ww">Total: 100% &#10003;</span></div>
+            <div class="ig" id="${cid}_gr"></div>
+            <button class="acb" onclick="addComp('${sid}','${cid}')">&#65291; Tambah Komponen</button>
+            <div class="ts">
+                <span class="tl">Target:</span>
+                <div class="gbs">
+                    <button class="gb act" onclick="setT('${sid}','${cid}',this,80,'A')">A (&ge;80)</button>
+                    <button class="gb" onclick="setT('${sid}','${cid}',this,75,'AB')">AB (&ge;75)</button>
+                    <button class="gb" onclick="setT('${sid}','${cid}',this,70,'B')">B (&ge;70)</button>
+                    <button class="gb" onclick="setT('${sid}','${cid}',this,65,'BC')">BC (&ge;65)</button>
+                    <button class="gb" onclick="setT('${sid}','${cid}',this,60,'C')">C (&ge;60)</button>
+                    <button class="gb" onclick="setT('${sid}','${cid}',this,56,'CD')">CD (&ge;56)</button>
+                </div>
+            </div>
+            <button class="cbtn" onclick="calc('${sid}','${cid}')">&#x1F9EE; &nbsp;Hitung Nilai Minimum</button>
+            <div class="ra" id="${cid}_res"></div>
+        </div>`;
+    document.getElementById(sid+'_cl').appendChild(d);
+    makeDraggable(d,sid);
+    renderComps(sid,cid);
+    d.querySelector('.ni').focus();
+}
+
+function delCourse(sid,cid){
+    const el=document.getElementById(cid);
+    if(el){el.style.transition='all .3s';el.style.opacity='0';el.style.transform='translateX(-20px)';
+    setTimeout(()=>{el.remove();delete sems[sid].courses[cid];renumberCourses(sid);updGlobal()},300)}
+}
+
+function renderComps(sid,cid){
+    const comps=sems[sid].courses[cid].comps;
+    const grid=document.getElementById(cid+'_gr');grid.innerHTML='';
+    comps.forEach((c,i)=>{
+        const r=document.createElement('div');r.className='ir';
+        r.innerHTML=`<div><input type="text" class="cne" value="${c.name}" placeholder="Nama komponen" oninput="sems['${sid}'].courses['${cid}'].comps[${i}].name=this.value"></div>
+            <div class="wiw"><input type="number" class="we" value="${c.w}" min="0" max="100" oninput="sems['${sid}'].courses['${cid}'].comps[${i}].w=parseFloat(this.value)||0;updW('${sid}','${cid}')"><span class="wp">%</span></div>
+            <input type="number" class="vi" id="${cid}_v${i}" min="0" max="100" step="0.01" placeholder="0–100">
+            <button class="cd2" onclick="delComp('${sid}','${cid}',${i})" title="Hapus">✕</button>`;
+        grid.appendChild(r);
+        const vi=r.querySelector('.vi');
+        vi.addEventListener('keypress',e=>{if(e.key==='Enter')calc(sid,cid)});
+        vi.addEventListener('change',function(){let v=parseFloat(this.value);if(!isNaN(v)){if(v<0)this.value=0;if(v>100)this.value=100}});
+    });
+    updW(sid,cid);
+}
+
+function addComp(sid,cid){sems[sid].courses[cid].comps.push({name:'Komponen Baru',w:0});renderComps(sid,cid)}
+function delComp(sid,cid,i){const c=sems[sid].courses[cid].comps;if(c.length<=1)return;c.splice(i,1);renderComps(sid,cid)}
+function updW(sid,cid){
+    const tot=sems[sid].courses[cid].comps.reduce((s,c)=>s+(c.w||0),0);
+    const el=document.getElementById(cid+'_ww');
+    if(Math.abs(tot-100)<.01){el.className='ww ok';el.textContent=`Total: ${tot}% ✓`}
+    else{el.className='ww bad';el.textContent=`Total: ${tot}% (harus 100%)`}
+}
+function setT(sid,cid,btn,s,g){
+    document.getElementById(cid).querySelectorAll('.gb').forEach(b=>b.classList.remove('act'));
+    btn.classList.add('act');sems[sid].courses[cid].target=s;sems[sid].courses[cid].tg=g;
+}
+
+function calc(sid,cid){
+    const c=sems[sid].courses[cid];
+    const totW=c.comps.reduce((s,x)=>s+(x.w||0),0);
+    if(Math.abs(totW-100)>=.01){alert('Total bobot harus 100%! Saat ini: '+totW+'%');return}
+
+    let filled=0,emp=[];
+    c.comps.forEach((comp,i)=>{
+        const inp=document.getElementById(cid+'_v'+i);
+        const val=inp?inp.value.trim():'';
+        if(val!==''&&!isNaN(parseFloat(val))){
+            comp.value=Math.max(0,Math.min(100,parseFloat(val)));comp.filled=true;
+            filled+=comp.value*(comp.w/100);
+        }else{comp.value=null;comp.filled=false;emp.push(comp)}
+    });
+
+    const ew=emp.reduce((s,x)=>s+x.w,0)/100;
+    const cur=filled,grade=G(cur),tgt=c.target,tg=c.tg;
+
+    let mh='';
+    if(!emp.length){
+        if(cur>=tgt)mh=`<div class="mnb sf"><div class="mnl" style="color:var(--gb)">🎉 Selamat!</div><div class="mnv" style="color:var(--gb)">${cur.toFixed(2)}</div><div class="mnd">Sudah mencapai grade ${tg} (≥${tgt})!</div></div>`;
+        else mh=`<div class="mnb no"><div class="mnl" style="color:var(--ge)">⚠️ Belum Mencapai</div><div class="mnv" style="color:var(--ge)">${cur.toFixed(2)}</div><div class="mnd">Kurang ${(tgt-cur).toFixed(2)} poin dari grade ${tg} (≥${tgt}).</div></div>`;
+    }else{
+        const need=tgt-filled,minE=need/ew,en=emp.map(x=>x.name).join(', ');
+        if(cur>=tgt)mh=`<div class="mnb sf"><div class="mnl" style="color:var(--gb)">🎉 Sudah Aman!</div><div class="mnv" style="color:var(--gb)">0.00</div><div class="mnd">${en} bisa bernilai 0, sudah grade ${tg}!</div></div>`;
+        else if(minE>100)mh=`<div class="mnb no"><div class="mnl" style="color:var(--ge)">❌ Tidak Mungkin</div><div class="mnv" style="color:var(--ge)">${minE.toFixed(2)}</div><div class="mnd">Walau ${en} mendapat 100, target ${tg} (≥${tgt}) tidak tercapai.</div></div>`;
+        else{const mv=(Math.ceil(minE*100)/100).toFixed(2);
+            mh=`<div class="mnb ok"><div class="mnl" style="color:var(--ga)">✅ ${emp.length===1?'Nilai Minimum '+en:'Nilai Minimum Rata-rata'}</div><div class="mnv" style="color:var(--ga)">${mv}</div><div class="mnd">${emp.length===1?`Butuh minimal <strong>${mv}</strong> pada ${en}`:`Setiap komponen kosong (${en}) butuh minimal <strong>${mv}</strong>`} untuk grade ${tg} (≥${tgt}).</div></div>`}
+    }
+
+    let bh='<div class="bdg">';
+    c.comps.forEach(comp=>{const v=comp.filled?comp.value:0;bh+=`<div class="bdi"><span class="bn">${comp.name}</span><span class="bc">${comp.filled?comp.value.toFixed(2):'<em style="color:var(--t3)">kosong</em>'} × ${comp.w}%</span><span class="br">${(v*comp.w/100).toFixed(2)}</span></div>`});
+    bh+=`<div class="bdi" style="background:var(--ac-bg);border-color:var(--ac-bd)"><span class="bn" style="color:var(--ac)">Total Nilai Akhir</span><span class="bc"></span><span class="br" style="font-size:.95rem">${cur.toFixed(2)}</span></div></div>`;
+
+    document.getElementById(cid+'_res').innerHTML=`<div style="margin-top:16px">
+        <div class="sd"><div class="csl">Nilai Akhir</div><div class="csv" style="color:${grade.c}">${cur.toFixed(2)}</div><div class="csg" style="background:${grade.bg};color:${grade.c}">Grade ${grade.l}</div></div>
+        <div class="ps"><div class="ph"><span>Progress</span><span>${cur.toFixed(1)}/100</span></div><div class="pt"><div class="pf" style="width:${Math.min(100,cur)}%;background:${PG(cur)}"></div></div></div>
+        ${mh}<div style="margin-top:12px"><div style="font-weight:700;font-size:.82rem;margin-bottom:10px;color:var(--t2)">📋 Rincian</div>${bh}</div></div>`;
+    document.getElementById(cid+'_res').classList.add('show');
+
+    const bg=document.getElementById(cid+'_bg');bg.textContent=grade.l;bg.style.background=grade.bg;bg.style.color=grade.c;bg.classList.add('show');
+    const sks=parseInt(document.getElementById(cid+'_sk').value)||0;
+    document.getElementById(cid+'_sb').textContent=sks+' SKS';
+
+    c.score=cur;c.grade=grade;c.sks=sks;
+    c.name=document.getElementById(cid+'_nm').value.trim()||'Mata Kuliah';
+    c.done=true;
+    updGlobal();
+    saveData();
+}
+
+function updGlobal(){
+    let allSKS=0,allPt=0,semData=[];
+    Object.entries(sems).forEach(([sid,sem])=>{
+        let sSKS=0,sPt=0,count=0;
+        const entries=Object.values(sem.courses).filter(c=>c.done);
+        entries.forEach(c=>{sSKS+=c.sks;sPt+=c.grade.p*c.sks;count++});
+        allSKS+=sSKS;allPt+=sPt;
+        const ips=sSKS>0?(sPt/sSKS):0;
+        semData.push({sid,num:sem.num,sSKS,sPt,ips,count,entries});
+
+        // Update sem header
+        document.getElementById(sid+'_stats').textContent=`${count} Mata Kuliah · ${sSKS} SKS`;
+        const ipsEl=document.getElementById(sid+'_ips');
+        if(count>0){ipsEl.textContent='IPS: '+ips.toFixed(2);ipsEl.style.background=G(ips*20).bg;ipsEl.style.color=G(ips*20).c;ipsEl.classList.add('show')}
+        else ipsEl.classList.remove('show');
+    });
+
+    const sec=document.getElementById('globalSum');
+    if(!semData.some(s=>s.count>0)){sec.classList.remove('show');updTotalBar(0,0,0,0);return}
+    sec.classList.add('show');
+
+    const ipk=allSKS>0?(allPt/allSKS):0;
+    const totalMK=semData.reduce((s,d)=>s+d.count,0);
+    const totalSem=semData.filter(s=>s.count>0).length;
+    document.getElementById('ipkVal').textContent=ipk.toFixed(2);
+    document.getElementById('ipkDt').textContent=`Total ${allSKS} SKS · ${totalMK} Mata Kuliah · ${totalSem} Semester`;
+    document.getElementById('ipkFm').textContent=`IPK = Σ(Bobot × SKS) / Σ(SKS) = ${allPt.toFixed(2)} / ${allSKS} = ${ipk.toFixed(2)}`;
+
+    // IPS cards
+    const ipsG=document.getElementById('ipsGrid');ipsG.innerHTML='';
+    semData.filter(s=>s.count>0).forEach(s=>{
+        ipsG.innerHTML+=`<div class="ip-card"><div class="ip-c-lb">IPS Semester ${s.num}</div><div class="ip-c-vl">${s.ips.toFixed(2)}</div></div>`;
+    });
+
+    // Sem summaries
+    const ssl=document.getElementById('semSumList');ssl.innerHTML='';
+    semData.filter(s=>s.count>0).forEach(s=>{
+        ssl.innerHTML+=`<div class="sem-sum"><div class="sem-sum-t">📚 Semester ${s.num}</div>
+            <div class="sem-sum-row">
+                <div class="sem-sum-item"><span class="ssl">Mata Kuliah</span><span class="ssv">${s.count}</span></div>
+                <div class="sem-sum-item"><span class="ssl">Total SKS</span><span class="ssv">${s.sSKS}</span></div>
+                <div class="sem-sum-item"><span class="ssl">IPS</span><span class="ssv">${s.ips.toFixed(2)}</span></div>
+                <div class="sem-sum-item"><span class="ssl">Total Poin</span><span class="ssv">${s.sPt.toFixed(2)}</span></div>
+            </div></div>`;
+    });
+
+    // All courses table
+    const tb=document.getElementById('allBody');tb.innerHTML='';
+    semData.forEach(s=>{
+        s.entries.forEach(c=>{
+            tb.innerHTML+=`<tr><td>Sem ${s.num}</td><td>${c.name}</td><td style="text-align:center;font-weight:700">${c.sks}</td><td style="font-weight:700">${c.score.toFixed(2)}</td><td class="gc" style="color:${c.grade.c}">${c.grade.l}</td><td style="text-align:center;font-weight:700">${c.grade.p.toFixed(2)}</td></tr>`;
+        });
+    });
+
+    updTotalBar(allSKS, totalMK, totalSem, ipk);
+}
+
+function updTotalBar(sks, mk, sem, ipk){
+    const bar=document.getElementById('totalBar');
+    if(sks===0){bar.classList.remove('show');return}
+    bar.classList.add('show');
+    document.getElementById('tb-sks').textContent=sks;
+    document.getElementById('tb-mk').textContent=mk;
+    document.getElementById('tb-sem').textContent=sem;
+    document.getElementById('tb-ipk').textContent=ipk>0?ipk.toFixed(2):'—';
+    const gradeEl=document.getElementById('tb-grade');
+    if(ipk>0){
+        const g=G(ipk*25);
+        let gl='',gc='',bg='';
+        if(ipk>=4.00){gl='Summa Cum Laude';gc='var(--ga)';bg='52,211,153'}
+        else if(ipk>=3.79){gl='Magna Cum Laude';gc='var(--ga)';bg='52,211,153'}
+        else if(ipk>=3.50){gl='Cum Laude';gc='var(--gb)';bg='96,165,250'}
+        else if(ipk>=2.75){gl='Sangat Memuaskan';gc='var(--gc)';bg='251,191,36'}
+        else if(ipk>=2.00){gl='Memuaskan';gc='var(--gd)';bg='251,146,60'}
+        else{gl='Kurang';gc='var(--ge)';bg='248,113,113'}
+        gradeEl.style.display='flex';
+        gradeEl.style.background=`rgba(${bg},.12)`;
+        gradeEl.style.color=gc;
+        gradeEl.textContent=gl;
+    } else {gradeEl.style.display='none'}
+}
+
+/* ========== SAVE / LOAD / EXPORT / IMPORT ========== */
+const STORAGE_KEY='gradeCalcData_v2';
+
+function toast(msg,icon='✅'){
+    const t=document.getElementById('toast');
+    t.innerHTML=icon+' '+msg;t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function collectState(){
+    // Collect all current input values from DOM into sems object
+    Object.entries(sems).forEach(([sid,sem])=>{
+        Object.entries(sem.courses).forEach(([cid,c])=>{
+            const nmEl=document.getElementById(cid+'_nm');
+            if(nmEl) c.name=nmEl.value.trim()||'Mata Kuliah';
+            const skEl=document.getElementById(cid+'_sk');
+            if(skEl) c.sks=parseInt(skEl.value)||3;
+            c.comps.forEach((comp,i)=>{
+                const vEl=document.getElementById(cid+'_v'+i);
+                if(vEl&&vEl.value.trim()!=='') comp.inputVal=parseFloat(vEl.value);
+                else comp.inputVal=null;
+            });
+        });
+    });
+    return {version:2,SC,sems:JSON.parse(JSON.stringify(sems,(_,v)=>{
+        // Strip non-serializable grade objects (they have css var refs)
+        if(v&&typeof v==='object'&&v.c&&typeof v.c==='string'&&v.c.startsWith('var(')){
+            return{l:v.l,p:v.p};
+        }
+        return v;
+    }))};
+}
+
+function saveData(){
+    try{
+        const state=collectState();
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+        const now=new Date();
+        const ts=now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+        document.getElementById('saveStatus').innerHTML='<span class="dot-ok"></span>Tersimpan '+ts;
+        toast('Data berhasil disimpan!','💾');
+    }catch(e){toast('Gagal menyimpan: '+e.message,'❌')}
+}
+
+function loadData(){
+    try{
+        const raw=localStorage.getItem(STORAGE_KEY);
+        if(!raw) return false;
+        const state=JSON.parse(raw);
+        if(!state||!state.sems) return false;
+
+        // Clear existing
+        document.getElementById('semList').innerHTML='';
+        Object.keys(sems).forEach(k=>delete sems[k]);
+        SC=0;
+
+        // Rebuild
+        const semEntries=Object.entries(state.sems);
+        semEntries.forEach(([sid,sem])=>{
+            SC++;
+            const newSid='s'+SC;
+            sems[newSid]={num:SC,courses:{},cc:0};
+
+            // Create semester DOM
+            const d=document.createElement('div');d.className='sem open';d.id=newSid;
+            d.innerHTML=`
+                <div class="sem-h" onclick="document.getElementById('${newSid}').classList.toggle('open')">
+                    <div class="sem-num">${SC}</div>
+                    <div class="sem-info">
+                        <div class="sem-title">Semester ${SC} <span class="sem-ips" id="${newSid}_ips"></span></div>
+                        <div class="sem-stats" id="${newSid}_stats">0 Mata Kuliah · 0 SKS</div>
+                    </div>
+                    <button class="sem-del" onclick="event.stopPropagation();delSem('${newSid}')" title="Hapus Semester">✕</button>
+                    <div class="sem-cv">▼</div>
+                </div>
+                <div class="sem-body">
+                    <div id="${newSid}_cl"></div>
+                    <button class="add-c-btn" onclick="addCourse('${newSid}')">＋ Tambah Mata Kuliah</button>
+                </div>`;
+            document.getElementById('semList').appendChild(d);
+
+            // Rebuild courses
+            Object.entries(sem.courses).forEach(([oldCid,course])=>{
+                const s=sems[newSid];s.cc++;
+                const cid=newSid+'c'+s.cc;
+                s.courses[cid]={target:course.target||80,tg:course.tg||'A',comps:course.comps||JSON.parse(JSON.stringify(defComps)),num:s.cc};
+
+                const cd=document.createElement('div');cd.className='cc';cd.id=cid;
+                const tgtMap={80:'A',75:'AB',70:'B',65:'BC',60:'C',56:'CD'};
+                const tgtBtns=[80,75,70,65,60,56].map(v=>`<button class="gb${course.target===v?' act':''}" onclick="setT('${newSid}','${cid}',this,${v},'${tgtMap[v]}')">${tgtMap[v]} (≥${v})</button>`).join('');
+
+                cd.innerHTML=`
+                    <div class="ch" onclick="document.getElementById('${cid}').classList.toggle('open')">
+                        <div class="drag-handle" onclick="event.stopPropagation()" title="Seret untuk memindahkan">&#10495;</div>
+                        <div class="cn">${s.cc}</div>
+                        <div class="cnd"><span id="${cid}_dn">${course.name||'Mata Kuliah'}</span><span class="cgb" id="${cid}_bg"></span><span class="sks-b" id="${cid}_sb"></span></div>
+                        <button class="c-del" onclick="event.stopPropagation();delCourse('${newSid}','${cid}')" title="Hapus">&#x2715;</button>
+                        <div class="c-cv">&#x25BC;</div>
+                    </div>
+                    <div class="c-body">
+                        <input type="text" class="ni" id="${cid}_nm" placeholder="Nama Mata Kuliah" value="${(course.name||'').replace(/"/g,'&quot;')}" oninput="document.getElementById('${cid}_dn').textContent=this.value.trim()||'Mata Kuliah'">
+                        <div class="sks-r"><label>SKS:</label><input type="number" class="sks-i" id="${cid}_sk" min="1" max="12" value="${course.sks||3}"></div>
+                        <div class="cs-t"><span>&#9881;&#65039; Komponen Penilaian</span><span class="ww ok" id="${cid}_ww">Total: 100% &#10003;</span></div>
+                        <div class="ig" id="${cid}_gr"></div>
+                        <button class="acb" onclick="addComp('${newSid}','${cid}')">&#65291; Tambah Komponen</button>
+                        <div class="ts">
+                            <span class="tl">Target:</span>
+                            <div class="gbs">${tgtBtns}</div>
+                        </div>
+                        <button class="cbtn" onclick="calc('${newSid}','${cid}')">&#x1F9EE; &nbsp;Hitung Nilai Minimum</button>
+                        <div class="ra" id="${cid}_res"></div>
+                    </div>`;
+                document.getElementById(newSid+'_cl').appendChild(cd);
+                makeDraggable(cd,newSid);
+
+                // Render components and restore values
+                renderComps(newSid,cid);
+                s.courses[cid].comps.forEach((comp,i)=>{
+                    if(comp.inputVal!==null&&comp.inputVal!==undefined){
+                        const vEl=document.getElementById(cid+'_v'+i);
+                        if(vEl) vEl.value=comp.inputVal;
+                    }
+                });
+
+                // Auto-recalculate if was previously calculated
+                if(course.done) calc(newSid,cid);
+            });
+        });
+
+        document.getElementById('saveStatus').innerHTML='<span class="dot-ok"></span>Data dimuat';
+        return true;
+    }catch(e){console.error('Load error:',e);return false}
+}
+
+function exportData(){
+    try{
+        const state=collectState();
+        const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        const date=new Date().toISOString().slice(0,10);
+        a.href=url;a.download=`kalkulator-nilai-${date}.json`;a.click();
+        URL.revokeObjectURL(url);
+        toast('File JSON berhasil didownload!','📥');
+    }catch(e){toast('Gagal export: '+e.message,'❌')}
+}
+
+function importData(event){
+    const file=event.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(e){
+        try{
+            const state=JSON.parse(e.target.result);
+            if(!state||!state.sems){toast('File tidak valid!','❌');return}
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+            loadData();
+            toast('Data berhasil diimport!','📤');
+        }catch(err){toast('Gagal membaca file: '+err.message,'❌')}
+    };
+    reader.readAsText(file);
+    event.target.value=''; // reset input
+}
+
+function resetData(){
+    if(!confirm('Yakin ingin menghapus SEMUA data? Tindakan ini tidak bisa dibatalkan.'))return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.getElementById('semList').innerHTML='';
+    Object.keys(sems).forEach(k=>delete sems[k]);
+    SC=0;
+    document.getElementById('globalSum').classList.remove('show');
+    document.getElementById('saveStatus').innerHTML='';
+    addSem();
+    toast('Semua data telah direset.','🗑️');
+}
+
+// Auto-save before page close
+window.addEventListener('beforeunload',()=>{
+    try{const state=collectState();localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}
+});
+
+// ========== INIT ==========
+if(!loadData()) addSem();
+</script>
+</body>
+</html>
